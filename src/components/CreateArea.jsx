@@ -8,7 +8,6 @@ function CreateArea(props) {
   let [showStat, setShowStat] = useState(false);
 
   function changeStatState() {
-    console.log("clicked");
     setShowStat(true);
   }
 
@@ -18,6 +17,17 @@ function CreateArea(props) {
 
   function textAreaChangeHandler(event) {
     setInputText({ ...inputText, content: event.target.value });
+  }
+
+  function handleAddNote() {
+    if (inputText.title.trim() === "" && inputText.content.trim() === "") {
+      alert("Please enter a note before adding!");
+      return;
+    }
+
+    props.onClick(inputText); 
+    setInputText({ title: "", content: "" }); 
+    setShowStat(false); 
   }
 
   return (
@@ -38,15 +48,7 @@ function CreateArea(props) {
         onClick={changeStatState}
       />
       <Zoom in={showStat}>
-        <Fab
-          type="button"
-          onClick={() => {
-            props.onClick(inputText);
-            setInputText({ title: "", content: "" });
-            setShowStat(false);
-          }}
-          display={showStat ? "null" : "none"}
-        >
+        <Fab type="button" onClick={handleAddNote}>
           <AddIcon />
         </Fab>
       </Zoom>
